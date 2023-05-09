@@ -3,13 +3,13 @@ package com.valcon.videotechatodor.mapper;
 import com.valcon.videotechatodor.dto.UserDTO;
 import com.valcon.videotechatodor.model.User;
 
-public class Mapper {
+public class UserMapper {
 
-    public static User toUserEntity(UserDTO userDTO) {
+    public static User toEntity(UserDTO userDTO) {
         return new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail());
     }
 
-    public static UserDTO toUserDTO(User user){
+    public static UserDTO toDTO(User user){
         return new UserDTO(user.getUsername(), user.getPassword(), user.getEmail());
     }
 

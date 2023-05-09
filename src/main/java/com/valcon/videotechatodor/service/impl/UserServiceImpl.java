@@ -1,7 +1,7 @@
 package com.valcon.videotechatodor.service.impl;
 
 import com.valcon.videotechatodor.dto.UserDTO;
-import com.valcon.videotechatodor.mapper.Mapper;
+import com.valcon.videotechatodor.mapper.UserMapper;
 import com.valcon.videotechatodor.model.User;
 import com.valcon.videotechatodor.repository.UserRepository;
 import com.valcon.videotechatodor.service.UserService;
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(UserDTO userDTO) {
-        User newUser = Mapper.toUserEntity(userDTO);
+        User newUser = UserMapper.toEntity(userDTO);
         newUser.setRole(Role.REGULAR_USER);
         userRepository.save(newUser);
     }

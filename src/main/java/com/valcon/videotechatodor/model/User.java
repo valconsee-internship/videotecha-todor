@@ -23,6 +23,7 @@ public class User {
     private String email;
 
     @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private Role role;
 
     public User(String username, String password, String email, Role role) {
@@ -44,10 +45,6 @@ public class User {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {
