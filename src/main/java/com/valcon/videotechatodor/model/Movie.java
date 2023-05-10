@@ -28,7 +28,7 @@ public class Movie {
     private String director;
 
     @Column(nullable = false)
-    private int length;
+    private Double length;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -39,7 +39,7 @@ public class Movie {
 
     public Movie() {}
 
-    public Movie(String name, String description, String director, int length, List<Genre> genres) {
+    public Movie(String name, String description, String director, Double length, List<Genre> genres) {
         this.name = name;
         this.description = description;
         this.director = director;
@@ -49,6 +49,10 @@ public class Movie {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -75,11 +79,11 @@ public class Movie {
         this.director = director;
     }
 
-    public int getLength() {
+    public Double getLength() {
         return length;
     }
 
-    public void setLength(int length) {
+    public void setLength(Double length) {
         this.length = length;
     }
 
@@ -98,4 +102,5 @@ public class Movie {
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
+
 }

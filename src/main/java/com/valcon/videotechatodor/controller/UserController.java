@@ -29,4 +29,5 @@ public class UserController {
     public List<UserDTO> getAll(){
         return userService.getAll();
     }
+
 }

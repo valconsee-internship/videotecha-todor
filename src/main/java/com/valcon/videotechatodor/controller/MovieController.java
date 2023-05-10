@@ -5,6 +5,7 @@ import com.valcon.videotechatodor.model.Movie;
 import com.valcon.videotechatodor.service.MovieService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,7 +36,7 @@ public class MovieController {
     }
 
     @PostMapping
-    public Movie createMovie(@RequestBody MovieDTO movieDTO){
+    public MovieDTO createMovie(@RequestBody MovieDTO movieDTO){
         return movieService.create(movieDTO);
     }
 
@@ -44,8 +45,14 @@ public class MovieController {
         movieService.delete(id);
     }
 
-    @PutMapping("/{id}")
-    public Movie updateMovie(@PathVariable Long id, @RequestBody MovieDTO movieDTO){
+    @PatchMapping("/{id}")
+    public MovieDTO updateMovie(@PathVariable Long id, @RequestBody MovieDTO movieDTO){
        return movieService.update(id, movieDTO);
     }
+
+    @PutMapping("/{id}")
+    public MovieDTO updateMovieAndReplace(@PathVariable Long id, @RequestBody MovieDTO movieDTO){
+        return movieService.updateAndReplace(id, movieDTO);
+    }
+
 }

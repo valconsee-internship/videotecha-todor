@@ -13,11 +13,11 @@ public class MovieDTO implements Serializable {
 
     private final String director;
 
-    private final int length;
+    private final Double length;
 
     private final List<Genre> genres;
 
-    public MovieDTO(String name, String description, String director, int length, List<Genre> genres) {
+    public MovieDTO(String name, String description, String director, Double length, List<Genre> genres) {
         this.name = name;
         this.description = description;
         this.director = director;
@@ -37,11 +37,12 @@ public class MovieDTO implements Serializable {
         return director;
     }
 
-    public int getLength() {
+    public Double getLength() {
         return length;
     }
 
     public List<Genre> getGenres() {
         return genres;
     }
+
 }
