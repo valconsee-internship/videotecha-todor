@@ -8,6 +8,7 @@ import com.valcon.videotechatodor.service.UserService;
 import com.valcon.videotechatodor.utils.Role;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,15 +21,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(UserDTO userDTO) {
+    public UserDTO register(UserDTO userDTO) {
         User newUser = UserMapper.toEntity(userDTO);
         newUser.setRole(Role.REGULAR_USER);
         userRepository.save(newUser);
+        return userDTO;
     }
 
     @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public List<UserDTO> getAll() {
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for(User user: userRepository.findAll()){
+            userDTOS.add(UserMapper.toDTO(user));
+        }
+        return userDTOS;
     }
 
 
