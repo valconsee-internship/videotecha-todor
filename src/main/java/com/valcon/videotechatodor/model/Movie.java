@@ -9,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.util.List;
+
 @Entity
 public class Movie {
 
@@ -30,19 +32,19 @@ public class Movie {
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private Genre genre;
+    private List<Genre> genres;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean isDeleted;
 
     public Movie() {}
 
-    public Movie(String name, String description, String director, int length, Genre genre) {
+    public Movie(String name, String description, String director, int length, List<Genre> genres) {
         this.name = name;
         this.description = description;
         this.director = director;
         this.length = length;
-        this.genre = genre;
+        this.genres = genres;
     }
 
     public Long getId() {
@@ -81,12 +83,12 @@ public class Movie {
         this.length = length;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public List<Genre> getGenres() {
+        return genres;
     }
 
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
     }
 
     public boolean isDeleted() {

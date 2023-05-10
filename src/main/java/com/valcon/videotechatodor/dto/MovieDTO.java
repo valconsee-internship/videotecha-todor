@@ -3,6 +3,7 @@ package com.valcon.videotechatodor.dto;
 import com.valcon.videotechatodor.utils.Genre;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class MovieDTO implements Serializable {
 
@@ -14,14 +15,14 @@ public class MovieDTO implements Serializable {
 
     private final int length;
 
-    private final Genre genre;
+    private final List<Genre> genres;
 
-    public MovieDTO(String name, String description, String director, int length, Genre genre) {
+    public MovieDTO(String name, String description, String director, int length, List<Genre> genres) {
         this.name = name;
         this.description = description;
         this.director = director;
         this.length = length;
-        this.genre = genre;
+        this.genres = genres;
     }
 
     public String getName() {
@@ -40,7 +41,7 @@ public class MovieDTO implements Serializable {
         return length;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public List<Genre> getGenres() {
+        return genres;
     }
 }

@@ -56,8 +56,8 @@ public class MovieServiceImpl implements MovieService {
         if(movieDTO.getLength() != 0){
             movie.setLength(movieDTO.getLength());
         }
-        if(movieDTO.getGenre() != null){
-            movie.setGenre(movieDTO.getGenre());
+        if(movieDTO.getGenres() != null){
+            movie.setGenres(movieDTO.getGenres());
         }
         return movieRepository.save(movie);
     }
