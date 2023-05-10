@@ -1,9 +1,12 @@
 package com.valcon.videotechatodor.controller;
 
 import com.valcon.videotechatodor.dto.UserDTO;
-import com.valcon.videotechatodor.model.User;
 import com.valcon.videotechatodor.service.UserService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -18,12 +21,13 @@ public class UserController {
     }
 
     @PostMapping("registration")
-    public void registration(@RequestBody UserDTO userDTO){
-        userService.register(userDTO);
+    public UserDTO registration(@RequestBody UserDTO userDTO){
+        return userService.register(userDTO);
     }
 
     @GetMapping
-    public List<User> getAll(){
+    public List<UserDTO> getAll(){
         return userService.getAll();
     }
+
 }
