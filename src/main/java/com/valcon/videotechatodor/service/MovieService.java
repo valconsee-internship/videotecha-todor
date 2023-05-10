@@ -10,8 +10,6 @@ public interface MovieService {
     List<Movie> getAll();
     void delete(Long id);
     Movie create(MovieDTO movieDTO);
-
     Movie getOne(Long id);
-
     Movie update(Long id, MovieDTO movieDTO);
 }

@@ -8,7 +8,7 @@ import com.valcon.videotechatodor.service.MovieService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 @Service
 public class MovieServiceImpl implements MovieService {
 
@@ -20,16 +20,14 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> getAll() {
-        return movieRepository.findAll();
+        return movieRepository.findByIsDeletedFalse();
     }
 
     @Override
     public void delete(Long id) {
         Movie movie = getOne(id);
-        if(movie == null){
-            return;
-        }
-        movieRepository.delete(movie);
+        movie.setDeleted(true);
+        movieRepository.save(movie);
     }
 
     @Override
@@ -39,7 +37,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie getOne(Long id) {
-        return movieRepository.findById(id).orElseThrow(() -> new RuntimeException("Movie with ID " + id + " does not exits"));
+        return movieRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> new RuntimeException("Movie with ID " + id + " does not exits"));
     }
 
     @Override
@@ -55,7 +53,7 @@ public class MovieServiceImpl implements MovieService {
         if(movieDTO.getDirector() != null){
             movie.setDirector(movieDTO.getDirector());
         }
-        if(movieDTO.getLength() != -1){
+        if(movieDTO.getLength() != 0){
             movie.setLength(movieDTO.getLength());
         }
         if(movieDTO.getGenre() != null){

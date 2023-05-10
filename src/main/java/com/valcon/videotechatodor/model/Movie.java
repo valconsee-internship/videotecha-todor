@@ -1,14 +1,20 @@
 package com.valcon.videotechatodor.model;
 
 import com.valcon.videotechatodor.utils.Genre;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long movieID;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -39,8 +45,8 @@ public class Movie {
         this.genre = genre;
     }
 
-    public long getMovieID() {
-        return movieID;
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
