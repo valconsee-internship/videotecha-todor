@@ -1,7 +1,6 @@
 package com.valcon.videotechatodor.controller;
 
 import com.valcon.videotechatodor.dto.MovieDTO;
-import com.valcon.videotechatodor.model.Movie;
 import com.valcon.videotechatodor.service.MovieService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,12 +25,12 @@ public class MovieController {
     }
 
     @GetMapping
-    public List<Movie> getAllMovies(){
+    public List<MovieDTO> getAllMovies(){
         return movieService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Movie getOneMovie(@PathVariable Long id){
+    public MovieDTO getOneMovie(@PathVariable Long id){
         return movieService.getOne(id);
     }
 

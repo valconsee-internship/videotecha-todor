@@ -19,13 +19,17 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getAll() {
-        return movieRepository.findByIsDeletedFalse();
+    public List<MovieDTO> getAll() {
+        return movieRepository.findByIsDeletedFalse()
+                .stream()
+                .map(MovieMapper::toDTO)
+                .toList();
     }
 
     @Override
     public void delete(Long id) {
-        Movie movie = getOne(id);
+        Movie movie = MovieMapper.toEntity(getOne(id));
+        movie.setId(id);
         movie.setDeleted(true);
         movieRepository.save(movie);
     }
@@ -37,14 +41,14 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie getOne(Long id) {
-        return movieRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> new RuntimeException("Movie with ID " + id + " does not exits"));
+    public MovieDTO getOne(Long id) {
+        return MovieMapper.toDTO(movieRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> new RuntimeException("Movie with ID " + id + " does not exits")));
     }
 
     @Override
     public MovieDTO update(Long id, MovieDTO movieDTO) {
-        Movie movie = getOne(id);
-
+        Movie movie = MovieMapper.toEntity(getOne(id));
+        movie.setId(id);
         if(movieDTO.getName() != null){
             movie.setName(movieDTO.getName());
         }
