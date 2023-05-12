@@ -27,6 +27,9 @@ public class Projection {
     @Column(nullable = false)
     private Double ticketPrice;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean isDeleted;
+
     public Projection() {
     }
 
@@ -71,6 +74,14 @@ public class Projection {
 
     public void setTicketPrice(Double ticketPrice) {
         this.ticketPrice = ticketPrice;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
 }

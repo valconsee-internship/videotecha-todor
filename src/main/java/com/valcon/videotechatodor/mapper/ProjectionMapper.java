@@ -12,6 +12,11 @@ public class ProjectionMapper {
                 projection.getTicketPrice());
     }
 
+    public static Projection toEntity(ProjectionDTO projectionDTO){
+        return new Projection(MovieMapper.toEntity(projectionDTO.getMovie()), TheaterMapper.toEntity(projectionDTO.getTheater()), projectionDTO.getStartTime(), projectionDTO.getTicketPrice());
+    }
+
     private ProjectionMapper() {
     }
+
 }

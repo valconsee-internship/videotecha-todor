@@ -28,8 +28,8 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void delete(Long id) {
-        Movie movie = MovieMapper.toEntity(getOne(id));
-        movie.setId(id);
+        Movie movie = movieRepository.findByIdAndIsDeletedFalse(id)
+                .orElseThrow(() -> new RuntimeException("Movie with ID " + id + " does not exits"));
         movie.setDeleted(true);
         movieRepository.save(movie);
     }
@@ -42,13 +42,16 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieDTO getOne(Long id) {
-        return MovieMapper.toDTO(movieRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> new RuntimeException("Movie with ID " + id + " does not exits")));
+        return movieRepository.findByIdAndIsDeletedFalse(id)
+                .map(MovieMapper::toDTO)
+                .orElseThrow(() -> new RuntimeException("Movie with ID " + id + " does not exits"));
     }
 
     @Override
     public MovieDTO update(Long id, MovieDTO movieDTO) {
-        Movie movie = MovieMapper.toEntity(getOne(id));
-        movie.setId(id);
+        Movie movie = movieRepository.findByIdAndIsDeletedFalse(id)
+                .orElseThrow(() -> new RuntimeException("Movie with ID " + id + " does not exits"));
+
         if(movieDTO.getName() != null){
             movie.setName(movieDTO.getName());
         }
@@ -71,8 +74,8 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDTO updateAndReplace(Long id, MovieDTO movieDTO) {
         getOne(id);
-        Movie updatedMovie = MovieMapper.toEntity(movieDTO);
-        updatedMovie.setId(id);
+        Movie updatedMovie = movieRepository.findByIdAndIsDeletedFalse(id)
+                .orElseThrow(() -> new RuntimeException("Movie with ID " + id + " does not exits"));
         movieRepository.save(updatedMovie);
         return MovieMapper.toDTO(updatedMovie);
     }

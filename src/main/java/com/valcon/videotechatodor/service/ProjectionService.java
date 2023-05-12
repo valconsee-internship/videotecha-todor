@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface ProjectionService {
     List<ProjectionDTO> getAll();
+    ProjectionDTO getOne(Long id);
     ProjectionDTO create(ProjectionCreateDTO projectionCreateDTO);
+    void delete(Long id);
 }

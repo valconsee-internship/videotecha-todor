@@ -34,10 +34,17 @@ public class ProjectionServiceImpl implements ProjectionService {
 
     @Override
     public List<ProjectionDTO> getAll() {
-        return projectionRepository.findAll()
+        return projectionRepository.findByIsDeletedFalse()
                 .stream()
                 .map(ProjectionMapper::toDTO)
                 .toList();
+    }
+
+    @Override
+    public ProjectionDTO getOne(Long id) {
+        return projectionRepository.findByIdAndIsDeletedFalse(id)
+                .map(ProjectionMapper::toDTO)
+                .orElseThrow(() -> new RuntimeException("Projection with ID " + id + " does not exits"));
     }
 
     @Override
@@ -52,6 +59,14 @@ public class ProjectionServiceImpl implements ProjectionService {
         projection.setStartTime(projectionDTO.getStartTime());
         projection.setTicketPrice(projectionDTO.getTicketPrice());
         return ProjectionMapper.toDTO(projectionRepository.save(projection));
+    }
+
+    @Override
+    public void delete(Long id) {
+        Projection projection = projectionRepository.findByIdAndIsDeletedFalse(id)
+                .orElseThrow(() -> new RuntimeException("Projection with ID " + id + " does not exits"));
+        projection.setDeleted(true);
+        projectionRepository.save(projection);
     }
 
 }
