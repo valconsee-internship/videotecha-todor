@@ -11,4 +11,7 @@ public class MovieMapper {
     public static MovieDTO toDTO(Movie movie){
         return new MovieDTO(movie.getName(), movie.getDescription(), movie.getDirector(), movie.getLength(), movie.getGenres());
     }
+
+    private MovieMapper() {
+    }
 }

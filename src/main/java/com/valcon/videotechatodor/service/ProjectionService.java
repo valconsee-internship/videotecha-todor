@@ -1,9 +1,12 @@
 package com.valcon.videotechatodor.service;
 
+import com.valcon.videotechatodor.dto.ProjectionCreateDTO;
+import com.valcon.videotechatodor.dto.ProjectionDTO;
 import com.valcon.videotechatodor.model.Projection;
 
 import java.util.List;
 
 public interface ProjectionService {
-    List<Projection> getAll();
+    List<ProjectionDTO> getAll();
+    ProjectionDTO create(ProjectionCreateDTO projectionCreateDTO);
 }
