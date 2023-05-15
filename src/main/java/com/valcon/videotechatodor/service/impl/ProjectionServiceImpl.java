@@ -13,6 +13,7 @@ import com.valcon.videotechatodor.service.MovieService;
 import com.valcon.videotechatodor.service.ProjectionService;
 import com.valcon.videotechatodor.service.TheaterService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -44,14 +45,14 @@ public class ProjectionServiceImpl implements ProjectionService {
     public ProjectionDTO getOne(Long id) {
         return projectionRepository.findByIdAndIsDeletedFalse(id)
                 .map(ProjectionMapper::toDTO)
-                .orElseThrow(() -> new RuntimeException("Projection with ID " + id + " does not exits"));
+                .orElseThrow(() -> new RuntimeException());
     }
 
+    @Transactional
     @Override
     public ProjectionDTO create(ProjectionCreateDTO projectionDTO) {
         Projection projection = new Projection();
-        Movie movie = MovieMapper.toEntity(movieService.getOne(projectionDTO.getMovieId()));
-        movie.setId(projectionDTO.getMovieId());
+        Movie movie = movieService.getOneMovie(projectionDTO.getMovieId());
         projection.setMovie(movie);
         Theater theater = TheaterMapper.toEntity(theaterService.getOne(projectionDTO.getTheaterId()));
         theater.setId(projectionDTO.getTheaterId());

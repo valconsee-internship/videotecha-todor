@@ -5,10 +5,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,10 +35,13 @@ public class Movie {
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private List<Genre> genres;
+    private List<Genre> genres = new ArrayList<>();
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean isDeleted;
+
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+    private List<Projection> projections = new ArrayList<>();
 
     public Movie() {}
 
@@ -101,6 +107,14 @@ public class Movie {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public List<Projection> getProjections() {
+        return projections;
+    }
+
+    public void setProjections(List<Projection> projections) {
+        this.projections = projections;
     }
 
 }
