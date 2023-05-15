@@ -84,4 +84,11 @@ public class Projection {
         isDeleted = deleted;
     }
 
+    public LocalDateTime getEndTime() {
+        LocalDateTime startTime = this.getStartTime();
+        int movieLength = this.getMovie().getLength();
+
+        return startTime.plusMinutes(movieLength);
+    }
+
 }
