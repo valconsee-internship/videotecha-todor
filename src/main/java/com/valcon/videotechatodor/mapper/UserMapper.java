@@ -13,4 +13,7 @@ public class UserMapper {
         return new UserDTO(user.getUsername(), user.getPassword(), user.getEmail());
     }
 
+    private UserMapper() {
+    }
+
 }

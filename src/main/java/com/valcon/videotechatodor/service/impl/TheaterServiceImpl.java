@@ -20,7 +20,7 @@ public class TheaterServiceImpl implements TheaterService {
     }
 
     @Override
-    public TheaterDTO getOne(Long id) {
+    public TheaterDTO getOneTheaterDTO(Long id) {
         return TheaterMapper.toDTO(theaterRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Theater with ID " + id + " does not exits"))
         );
@@ -34,6 +34,12 @@ public class TheaterServiceImpl implements TheaterService {
             theaterDTOS.add(TheaterMapper.toDTO(theater));
         }
         return theaterDTOS;
+    }
+
+    @Override
+    public Theater getOneTheater(Long id) {
+        return theaterRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Theater with ID " + id + " does not exits"));
     }
 
 }

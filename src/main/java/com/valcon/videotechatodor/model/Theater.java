@@ -35,6 +35,10 @@ public class Theater {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public RoomType getRoomType() {
         return roomType;
     }

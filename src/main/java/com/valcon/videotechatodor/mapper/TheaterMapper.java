@@ -9,4 +9,11 @@ public class TheaterMapper {
         return new TheaterDTO(theater.getRoomType(), theater.getCapacity());
     }
 
+    public static Theater toEntity(TheaterDTO theaterDTO){
+        return new Theater(theaterDTO.getRoomType(), theaterDTO.getCapacity());
+    }
+
+    private TheaterMapper() {
+    }
+
 }

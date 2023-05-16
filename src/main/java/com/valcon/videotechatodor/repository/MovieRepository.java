@@ -10,4 +10,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     List<Movie> findByIsDeletedFalse();
     Optional<Movie> findByIdAndIsDeletedFalse(Long id);
+
 }
