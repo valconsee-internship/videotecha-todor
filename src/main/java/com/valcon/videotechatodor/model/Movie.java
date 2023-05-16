@@ -40,7 +40,7 @@ public class Movie {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean isDeleted;
 
-    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "movie")
     private List<Projection> projections = new ArrayList<>();
 
     public Movie() {}

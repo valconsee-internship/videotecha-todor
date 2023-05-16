@@ -102,7 +102,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDTO updateAndReplace(Long id, MovieDTO movieDTO) {
         Movie movie = getOneMovie(id);
-        if(!activeProjections(movie).isEmpty()){
+        if(!activeProjections(movie).isEmpty()) {
             throw new RuntimeException(HAS_PROJECTION_ERROR);
         }
         movieRepository.save(movie);

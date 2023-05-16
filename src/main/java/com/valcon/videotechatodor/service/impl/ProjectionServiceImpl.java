@@ -77,9 +77,11 @@ public class ProjectionServiceImpl implements ProjectionService {
         Projection projection = new Projection();
         Movie movie = movieService.getOneMovie(projectionDTO.getMovieId());
         projection.setMovie(movie);
-        Theater theater = TheaterMapper.toEntity(theaterService.getOne(projectionDTO.getTheaterId()));
-        theater.setId(projectionDTO.getTheaterId());
+        Theater theater = theaterService.getOneTheater(projectionDTO.getTheaterId());
         projection.setTheater(theater);
+        if (isBeforeOrEqual(projectionDTO.getStartTime(), LocalDateTime.now())) {
+            throw new RuntimeException("Cannot create projection in the past!");
+        }
         projection.setStartTime(projectionDTO.getStartTime());
         projection.setTicketPrice(projectionDTO.getTicketPrice());
         isOverlapping(projection);

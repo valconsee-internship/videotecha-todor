@@ -26,7 +26,7 @@ public class TheaterController {
 
     @GetMapping("/{id}")
     public TheaterDTO getOne(@PathVariable Long id){
-        return theaterService.getOne(id);
+        return theaterService.getOneTheaterDTO(id);
     }
 
 }
