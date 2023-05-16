@@ -37,7 +37,7 @@ public class ProjectionServiceImpl implements ProjectionService {
     private void isOverlapping(Projection projection){
         List<Projection> projections = projectionRepository.findByTheaterIdAndIsDeletedFalse(projection.getTheater().getId());
         boolean isOverlapping = projections.stream()
-                .anyMatch(p -> isProjectionOverlapping(projection, p.getStartTime()));
+                .anyMatch(p -> isProjectionOverlapping(p, projection.getStartTime()));
         if (isOverlapping) {
             throw new RuntimeException("Projection overlapping");
         }
