@@ -23,7 +23,7 @@ public class MovieServiceImpl implements MovieService {
     private static String HAS_PROJECTION_ERROR = "Movie has active projections";
     private static String MOVIE_NOT_EXIST = "Movie with id %d does not exist";
 
-    private static List<Projection> activeProjections(Movie movie){
+    private static List<Projection> activeProjections(Movie movie) {
         return movie.getProjections()
                 .stream()
                 .filter(p -> !p.isDeleted() && !hasPassed(p))
