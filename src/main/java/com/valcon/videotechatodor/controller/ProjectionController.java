@@ -30,7 +30,7 @@ public class ProjectionController {
 
     @GetMapping("/{id}")
     public ProjectionDTO getOne(@PathVariable Long id){
-        return projectionService.getOne(id);
+        return projectionService.getOneProjectionDTO(id);
     }
 
     @PostMapping

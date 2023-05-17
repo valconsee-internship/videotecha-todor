@@ -65,9 +65,15 @@ public class ProjectionServiceImpl implements ProjectionService {
     }
 
     @Override
-    public ProjectionDTO getOne(Long id) {
+    public ProjectionDTO getOneProjectionDTO(Long id) {
         return projectionRepository.findByIdAndIsDeletedFalseAndStartTimeAfter(id, LocalDateTime.now())
                 .map(ProjectionMapper::toDTO)
+                .orElseThrow(() -> new RuntimeException(String.format(PROJECTION_NOT_FOUND, id)));
+    }
+
+    @Override
+    public Projection getOneProjection(Long id) {
+        return projectionRepository.findByIdAndIsDeletedFalseAndStartTimeAfter(id, LocalDateTime.now())
                 .orElseThrow(() -> new RuntimeException(String.format(PROJECTION_NOT_FOUND, id)));
     }
 

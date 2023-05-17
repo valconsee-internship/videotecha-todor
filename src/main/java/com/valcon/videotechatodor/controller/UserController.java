@@ -1,8 +1,10 @@
 package com.valcon.videotechatodor.controller;
 
+import com.valcon.videotechatodor.dto.ReservationDTO;
 import com.valcon.videotechatodor.dto.UserDTO;
 import com.valcon.videotechatodor.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +23,23 @@ public class UserController {
     }
 
     @PostMapping("registration")
-    public UserDTO registration(@RequestBody UserDTO userDTO){
+    public UserDTO registration(@RequestBody UserDTO userDTO) {
         return userService.register(userDTO);
     }
 
     @GetMapping
     public List<UserDTO> getAll(){
         return userService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public UserDTO getOneUser(@PathVariable Long id) {
+        return userService.getOneUserDTO(id);
+    }
+
+    @GetMapping("{id}/reservations")
+    public List<ReservationDTO> usersReservations(@PathVariable Long id) {
+        return userService.getUsersReservations(id);
     }
 
 }

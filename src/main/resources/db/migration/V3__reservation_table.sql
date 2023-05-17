@@ -2,7 +2,7 @@ create table reservation(
     id bigserial not null,
     user_id bigint,
     projection_id bigint,
-    isCanceled boolean default false not null,
+    is_canceled boolean default false not null,
     primary key (id)
 );
 

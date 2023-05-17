@@ -23,6 +23,9 @@ public class Reservation {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean isCanceled;
 
+    public Reservation(){
+    }
+
     public Reservation(User user, Projection projection) {
         this.user = user;
         this.projection = projection;
@@ -47,4 +50,5 @@ public class Reservation {
     public void setProjection(Projection projection) {
         this.projection = projection;
     }
+
 }
