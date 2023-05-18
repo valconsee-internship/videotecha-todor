@@ -30,7 +30,7 @@ public class TheaterServiceImpl implements TheaterService {
     public List<TheaterDTO> getAll() {
         List<Theater> theaters = theaterRepository.findAll();
         List<TheaterDTO> theaterDTOS = new ArrayList<>();
-        for(Theater theater: theaters){
+        for (Theater theater : theaters) {
             theaterDTOS.add(TheaterMapper.toDTO(theater));
         }
         return theaterDTOS;

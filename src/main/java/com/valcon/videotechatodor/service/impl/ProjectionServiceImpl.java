@@ -3,7 +3,6 @@ package com.valcon.videotechatodor.service.impl;
 import com.valcon.videotechatodor.dto.ProjectionCreateDTO;
 import com.valcon.videotechatodor.dto.ProjectionDTO;
 import com.valcon.videotechatodor.mapper.ProjectionMapper;
-import com.valcon.videotechatodor.mapper.TheaterMapper;
 import com.valcon.videotechatodor.model.Movie;
 import com.valcon.videotechatodor.model.Projection;
 import com.valcon.videotechatodor.model.Theater;
@@ -34,7 +33,7 @@ public class ProjectionServiceImpl implements ProjectionService {
 
     private static final String PROJECTION_NOT_FOUND = "Projection with ID %d  does not exits";
 
-    private void isOverlapping(Projection projection){
+    private void isOverlapping(Projection projection) {
         List<Projection> projections = projectionRepository.findByTheaterIdAndIsDeletedFalse(projection.getTheater().getId());
         boolean isOverlapping = projections.stream()
                 .anyMatch(p -> isProjectionOverlapping(p, projection.getStartTime()));
@@ -43,7 +42,7 @@ public class ProjectionServiceImpl implements ProjectionService {
         }
     }
 
-    private static boolean isProjectionOverlapping(Projection projection, LocalDateTime newProjectionStartTime){
+    private static boolean isProjectionOverlapping(Projection projection, LocalDateTime newProjectionStartTime) {
         return isAfterOrEqual(newProjectionStartTime, projection.getStartTime())
                 && isBeforeOrEqual(newProjectionStartTime, projection.getEndTime());
     }

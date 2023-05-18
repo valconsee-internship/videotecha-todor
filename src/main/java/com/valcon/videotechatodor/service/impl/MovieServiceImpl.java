@@ -47,7 +47,7 @@ public class MovieServiceImpl implements MovieService {
     public void delete(Long id) {
         Movie movie = movieRepository.findByIdAndIsDeletedFalse(id)
                 .orElseThrow(() -> new RuntimeException(String.format(MOVIE_NOT_EXIST, id)));
-        if(!activeProjections(movie).isEmpty()){
+        if (!activeProjections(movie).isEmpty()) {
             throw new RuntimeException(HAS_PROJECTION_ERROR);
         }
         movie.setDeleted(true);
@@ -77,22 +77,22 @@ public class MovieServiceImpl implements MovieService {
     public MovieDTO update(Long id, MovieDTO movieDTO) {
         Movie movie = getOneMovie(id);
 
-        if(!activeProjections(movie).isEmpty()){
+        if (!activeProjections(movie).isEmpty()) {
             throw new RuntimeException(HAS_PROJECTION_ERROR);
         }
-        if(movieDTO.getName() != null){
+        if (movieDTO.getName() != null) {
             movie.setName(movieDTO.getName());
         }
-        if(movieDTO.getDescription() != null){
+        if (movieDTO.getDescription() != null) {
             movie.setDescription(movieDTO.getDescription());
         }
-        if(movieDTO.getDirector() != null){
+        if (movieDTO.getDirector() != null) {
             movie.setDirector(movieDTO.getDirector());
         }
-        if(movieDTO.getLength() != 0){
+        if (movieDTO.getLength() != 0) {
             movie.setLength(movieDTO.getLength());
         }
-        if(movieDTO.getGenres() != null){
+        if (movieDTO.getGenres() != null) {
             movie.setGenres(movieDTO.getGenres());
         }
         movieRepository.save(movie);
@@ -102,7 +102,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDTO updateAndReplace(Long id, MovieDTO movieDTO) {
         Movie movie = getOneMovie(id);
-        if(!activeProjections(movie).isEmpty()) {
+        if (!activeProjections(movie).isEmpty()) {
             throw new RuntimeException(HAS_PROJECTION_ERROR);
         }
         movieRepository.save(movie);

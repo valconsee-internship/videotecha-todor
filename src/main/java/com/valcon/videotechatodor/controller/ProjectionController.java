@@ -24,22 +24,22 @@ public class ProjectionController {
     }
 
     @GetMapping
-    public List<ProjectionDTO> getAll(){
+    public List<ProjectionDTO> getAll() {
         return projectionService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ProjectionDTO getOne(@PathVariable Long id){
+    public ProjectionDTO getOne(@PathVariable Long id) {
         return projectionService.getOneProjectionDTO(id);
     }
 
     @PostMapping
-    public ProjectionDTO createProjection(@RequestBody ProjectionCreateDTO projection){
+    public ProjectionDTO createProjection(@RequestBody ProjectionCreateDTO projection) {
         return projectionService.create(projection);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProjection(@PathVariable Long id){
+    public void deleteProjection(@PathVariable Long id) {
         projectionService.delete(id);
     }
 

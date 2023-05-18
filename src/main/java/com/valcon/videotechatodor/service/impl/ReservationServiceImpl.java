@@ -12,8 +12,6 @@ import com.valcon.videotechatodor.service.ReservationService;
 import com.valcon.videotechatodor.service.UserService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
@@ -22,7 +20,6 @@ public class ReservationServiceImpl implements ReservationService {
     private final UserService userService;
 
     private final ProjectionService projectionService;
-
 
     public ReservationServiceImpl(ReservationRepository reservationRepository, UserService userService, ProjectionService projectionService) {
         this.reservationRepository = reservationRepository;

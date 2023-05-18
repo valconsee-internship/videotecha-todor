@@ -23,7 +23,7 @@ public class Reservation {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean isCanceled;
 
-    public Reservation(){
+    public Reservation() {
     }
 
     public Reservation(User user, Projection projection) {

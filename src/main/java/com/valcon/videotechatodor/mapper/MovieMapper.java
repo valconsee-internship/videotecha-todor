@@ -8,8 +8,9 @@ public class MovieMapper {
         return new Movie(movieDTO.getName(), movieDTO.getDescription(), movieDTO.getDirector(), movieDTO.getLength(), movieDTO.getGenres());
     }
 
-    public static MovieDTO toDTO(Movie movie){
-        return new MovieDTO(movie.getName(), movie.getDescription(), movie.getDirector(), movie.getLength(), movie.getGenres());
+    public static MovieDTO toDTO(Movie movie) {
+        return new MovieDTO(movie.getName(), movie.getDescription(), movie.getDirector(), movie.getLength(), movie.getGenres(),
+                MovieProjectionMapper.toDto(movie.getProjections()));
     }
 
     private MovieMapper() {
