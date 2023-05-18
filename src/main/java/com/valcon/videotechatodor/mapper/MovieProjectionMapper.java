@@ -7,9 +7,9 @@ import java.util.List;
 
 public class MovieProjectionMapper {
 
-    public static List<MovieProjectionDTO> toDto(List<Projection> projections) {
+    public static List<MovieProjectionDTO> toDTO(List<Projection> projections) {
         return projections.stream()
-                .map(p -> new MovieProjectionDTO(p.getId(), TheaterMapper.toDTO(p.getTheater()), p.getStartTime(), p.getTicketPrice()))
+                .map(p -> new MovieProjectionDTO(p.getId(), MovieTheaterMapper.toDTO(p.getTheater()), p.getStartTime(), p.getTicketPrice()))
                 .toList();
     }
 

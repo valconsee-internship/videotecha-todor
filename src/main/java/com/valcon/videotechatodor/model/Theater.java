@@ -8,6 +8,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Theater {
@@ -22,6 +26,9 @@ public class Theater {
 
     @Column(nullable = false)
     private int capacity;
+
+    @OneToMany(mappedBy = "theater")
+    private List<Projection> projections = new ArrayList<>();
 
     public Theater() {
     }
@@ -47,4 +54,7 @@ public class Theater {
         return capacity;
     }
 
+    public List<Projection> getProjections() {
+        return projections;
+    }
 }

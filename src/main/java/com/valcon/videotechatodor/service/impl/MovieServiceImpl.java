@@ -61,7 +61,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieDTO getOneMovieDTO(Long id) {
+        public MovieDTO getOneMovieDTO(Long id) {
         return movieRepository.findByIdAndIsDeletedFalse(id)
                 .map(MovieMapper::toDTO)
                 .orElseThrow(() -> new RuntimeException(String.format(MOVIE_NOT_EXIST, id)));
