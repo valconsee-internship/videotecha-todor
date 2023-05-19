@@ -1,6 +1,8 @@
 package com.valcon.videotechatodor.service.impl;
 
+import com.valcon.videotechatodor.dto.MovieInfoDTO;
 import com.valcon.videotechatodor.dto.MovieDTO;
+import com.valcon.videotechatodor.mapper.MovieInfoMapper;
 import com.valcon.videotechatodor.mapper.MovieMapper;
 import com.valcon.videotechatodor.model.Movie;
 import com.valcon.videotechatodor.model.Projection;
@@ -55,9 +57,10 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieDTO create(MovieDTO movieDTO) {
-        movieRepository.save(MovieMapper.toEntity(movieDTO));
-        return movieDTO;
+    public MovieInfoDTO create(MovieInfoDTO movieInfoDTO) {
+        Movie movie = MovieMapper.toEntity(movieInfoDTO);
+        movieRepository.save(movie);
+        return movieInfoDTO;
     }
 
     @Override

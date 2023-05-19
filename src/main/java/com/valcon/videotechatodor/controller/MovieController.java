@@ -1,7 +1,7 @@
 package com.valcon.videotechatodor.controller;
 
+import com.valcon.videotechatodor.dto.MovieInfoDTO;
 import com.valcon.videotechatodor.dto.MovieDTO;
-import com.valcon.videotechatodor.dto.MovieProjectionDTO;
 import com.valcon.videotechatodor.service.MovieService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +36,7 @@ public class MovieController {
     }
 
     @PostMapping
-    public MovieDTO createMovie(@RequestBody MovieDTO movieDTO) {
+    public MovieInfoDTO createMovie(@RequestBody MovieInfoDTO movieDTO) {
         return movieService.create(movieDTO);
     }
 

@@ -35,4 +35,5 @@ public class TheaterProjectionDTO implements Serializable {
     public Double getTicketPrice() {
         return ticketPrice;
     }
+
 }

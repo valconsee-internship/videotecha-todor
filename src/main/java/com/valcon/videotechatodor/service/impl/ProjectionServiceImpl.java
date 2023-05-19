@@ -89,6 +89,7 @@ public class ProjectionServiceImpl implements ProjectionService {
         }
         projection.setStartTime(projectionDTO.getStartTime());
         projection.setTicketPrice(projectionDTO.getTicketPrice());
+        projection.setAvailableSeats(theater.getCapacity());
         isOverlapping(projection);
         return ProjectionMapper.toDTO(projectionRepository.save(projection));
     }

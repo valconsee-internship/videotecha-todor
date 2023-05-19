@@ -5,7 +5,7 @@ import com.valcon.videotechatodor.utils.Genre;
 import java.io.Serializable;
 import java.util.List;
 
-public class TheaterMovieDTO implements Serializable {
+public class MovieInfoDTO implements Serializable {
 
     private final String name;
 
@@ -17,7 +17,7 @@ public class TheaterMovieDTO implements Serializable {
 
     private final List<Genre> genres;
 
-    public TheaterMovieDTO(String name, String description, String director, int length, List<Genre> genres) {
+    public MovieInfoDTO(String name, String description, String director, int length, List<Genre> genres) {
         this.name = name;
         this.description = description;
         this.director = director;

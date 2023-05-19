@@ -1,6 +1,7 @@
 package com.valcon.videotechatodor.mapper;
 
 import com.valcon.videotechatodor.dto.TheaterDTO;
+import com.valcon.videotechatodor.dto.TheaterInfoDTO;
 import com.valcon.videotechatodor.model.Theater;
 
 public class TheaterMapper {
@@ -9,7 +10,7 @@ public class TheaterMapper {
         return new TheaterDTO(theater.getRoomType(), theater.getCapacity(), TheaterProjectionMapper.toDTO(theater.getProjections()));
     }
 
-    public static Theater toEntity(TheaterDTO theaterDTO){
+    public static Theater toEntity(TheaterInfoDTO theaterDTO){
         return new Theater(theaterDTO.getRoomType(), theaterDTO.getCapacity());
     }
 

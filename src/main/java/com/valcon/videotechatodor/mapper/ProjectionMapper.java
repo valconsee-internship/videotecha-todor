@@ -6,14 +6,18 @@ import com.valcon.videotechatodor.model.Projection;
 public class ProjectionMapper {
 
     public static ProjectionDTO toDTO(Projection projection){
-        return new ProjectionDTO(MovieMapper.toDTO(projection.getMovie()),
-                TheaterMapper.toDTO(projection.getTheater()),
+        return new ProjectionDTO(projection.getId(), MovieInfoMapper.toDTO(projection.getMovie()),
+                TheaterInfoMapper.toDTO(projection.getTheater()),
                 projection.getStartTime(),
-                projection.getTicketPrice());
+                projection.getTicketPrice(),
+                projection.getAvailableSeats());
     }
 
     public static Projection toEntity(ProjectionDTO projectionDTO){
-        return new Projection(MovieMapper.toEntity(projectionDTO.getMovie()), TheaterMapper.toEntity(projectionDTO.getTheater()), projectionDTO.getStartTime(), projectionDTO.getTicketPrice());
+        return new Projection(MovieMapper.toEntity(projectionDTO.getMovie()),
+                TheaterMapper.toEntity(projectionDTO.getTheater()),
+                projectionDTO.getStartTime(), projectionDTO.getTicketPrice(),
+                projectionDTO.getNumberOfSeats());
     }
 
     private ProjectionMapper() {
