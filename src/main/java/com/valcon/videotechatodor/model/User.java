@@ -37,7 +37,7 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user")
-    List<Reservation> reservations = new ArrayList<>();
+    private List<Reservation> reservations = new ArrayList<>();
 
     public User(String username, String password, String email, Role role) {
         this.username = username;

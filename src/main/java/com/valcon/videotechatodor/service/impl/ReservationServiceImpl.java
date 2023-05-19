@@ -39,13 +39,13 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationDTO create(ReservationCreateDTO reservationCreateDTO) {
         User user = userService.getOneUser(reservationCreateDTO.getUserId());
         Projection projection = projectionService.getOneProjection(reservationCreateDTO.getProjectionId());
-        boolean isLessOrEqualThenFive = reservationCreateDTO.getTicketAmount() <= TICKET_LIMIT;
+        boolean isLessOrEqualThenFive = reservationCreateDTO.getNumberOfTicket() <= TICKET_LIMIT;
         if(!isLessOrEqualThenFive) {
             throw new RuntimeException("You cannot buy more than 5 tickets");
         }
 
         int currentAvailableSeats = projection.getAvailableSeats();
-        if (currentAvailableSeats < reservationCreateDTO.getTicketAmount()) {
+        if (currentAvailableSeats < reservationCreateDTO.getNumberOfTicket()) {
             throw new RuntimeException("No available seats");
         }
 
@@ -53,15 +53,15 @@ public class ReservationServiceImpl implements ReservationService {
         if (!userReservations.isEmpty()) {
             int numberOfTickets = userReservations
                     .stream()
-                    .mapToInt(Reservation::getTicketAmount)
+                    .mapToInt(Reservation::getNumberOfTickets)
                     .sum();
-            if (numberOfTickets + reservationCreateDTO.getTicketAmount() > TICKET_LIMIT) {
+            if (numberOfTickets + reservationCreateDTO.getNumberOfTicket() > TICKET_LIMIT) {
                 throw new RuntimeException("Reservation limit reached!");
             }
         }
         
-        projection.setAvailableSeats(currentAvailableSeats - reservationCreateDTO.getTicketAmount());
-        Reservation reservation = new Reservation(user, projection, reservationCreateDTO.getTicketAmount());
+        projection.setAvailableSeats(currentAvailableSeats - reservationCreateDTO.getNumberOfTicket());
+        Reservation reservation = new Reservation(user, projection, reservationCreateDTO.getNumberOfTicket());
         return ReservationMapper.toDTO(reservationRepository.save(reservation));
     }
 
@@ -79,7 +79,7 @@ public class ReservationServiceImpl implements ReservationService {
             throw new RuntimeException("Cannot cancel reservation 2 hours before projection");
         }
         reservation.setCanceled(true);
-        int updatedSeats = reservation.getProjection().getAvailableSeats() + reservation.getTicketAmount();
+        int updatedSeats = reservation.getProjection().getAvailableSeats() + reservation.getNumberOfTickets();
         reservation.getProjection().setAvailableSeats(updatedSeats);
         reservationRepository.save(reservation);
     }

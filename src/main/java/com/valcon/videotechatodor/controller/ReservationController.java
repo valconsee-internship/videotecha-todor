@@ -1,6 +1,7 @@
 package com.valcon.videotechatodor.controller;
 
 import com.valcon.videotechatodor.dto.ReservationCreateDTO;
+import com.valcon.videotechatodor.dto.ReservationDTO;
 import com.valcon.videotechatodor.service.ReservationService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,8 +21,8 @@ public class ReservationController {
     }
 
     @PostMapping
-    public void createReservation(@RequestBody ReservationCreateDTO reservationCreateDTO) {
-        reservationService.create(reservationCreateDTO);
+    public ReservationDTO createReservation(@RequestBody ReservationCreateDTO reservationCreateDTO) {
+        return reservationService.create(reservationCreateDTO);
     }
 
     @DeleteMapping("/{id}")

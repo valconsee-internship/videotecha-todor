@@ -1,10 +1,8 @@
 create table reservation(
-    id bigserial not null,
-    user_id bigint,
-    projection_id bigint,
-    is_canceled boolean default false not null,
+    id bigserial,
+    user_id bigint references "user",
+    projection_id bigint references projection,
+    number_of_tickets integer,
+    is_canceled boolean default false,
     primary key (id)
 );
-
-alter table if exists reservation add constraint FKxythcvh43xg65dtdycuctfhy5 foreign key (projection_id) references projection;
-alter table if exists reservation add constraint FKiyfyfiuyiuyfydf563dh6dyhg foreign key (user_id) references "user";

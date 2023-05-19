@@ -8,12 +8,12 @@ public class ReservationCreateDTO implements Serializable {
 
     private final Long projectionId;
 
-    private final int ticketAmount;
+    private final int numberOfTicket;
 
-    public ReservationCreateDTO(Long userId, Long projectionId, int ticketAmount) {
+    public ReservationCreateDTO(Long userId, Long projectionId, int numberOfTicket) {
         this.userId = userId;
         this.projectionId = projectionId;
-        this.ticketAmount = ticketAmount;
+        this.numberOfTicket = numberOfTicket;
     }
 
     public Long getUserId() {
@@ -24,8 +24,8 @@ public class ReservationCreateDTO implements Serializable {
         return projectionId;
     }
 
-    public int getTicketAmount() {
-        return ticketAmount;
+    public int getNumberOfTicket() {
+        return numberOfTicket;
     }
 
 }
