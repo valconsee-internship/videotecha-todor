@@ -6,7 +6,7 @@ import com.valcon.videotechatodor.model.Reservation;
 public class ReservationMapper {
 
     public static ReservationDTO toDTO(Reservation reservation) {
-        return new ReservationDTO(ProjectionMapper.toDTO(reservation.getProjection()));
+        return new ReservationDTO(reservation.getId(), ProjectionMapper.toDTO(reservation.getProjection()));
     }
 
 }
