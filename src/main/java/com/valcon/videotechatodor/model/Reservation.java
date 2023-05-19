@@ -20,15 +20,18 @@ public class Reservation {
     @ManyToOne
     private Projection projection;
 
+    private int ticketAmount;
+
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean isCanceled;
 
     public Reservation() {
     }
 
-    public Reservation(User user, Projection projection) {
+    public Reservation(User user, Projection projection, int ticketAmount) {
         this.user = user;
         this.projection = projection;
+        this.ticketAmount = ticketAmount;
     }
 
     public Long getId() {
@@ -49,6 +52,22 @@ public class Reservation {
 
     public void setProjection(Projection projection) {
         this.projection = projection;
+    }
+
+    public int getTicketAmount() {
+        return ticketAmount;
+    }
+
+    public void setTicketAmount(int ticketAmount) {
+        this.ticketAmount = ticketAmount;
+    }
+
+    public boolean isCanceled() {
+        return isCanceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        isCanceled = canceled;
     }
 
 }
