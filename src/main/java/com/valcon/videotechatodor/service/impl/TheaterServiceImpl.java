@@ -21,16 +21,16 @@ public class TheaterServiceImpl implements TheaterService {
 
     @Override
     public TheaterDTO getOneTheaterDTO(Long id) {
-        return TheaterMapper.toDTO(theaterRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Theater with ID " + id + " does not exits"))
-        );
+        return theaterRepository.findById(id)
+                .map(TheaterMapper::toDTO)
+                .orElseThrow(() -> new RuntimeException("Theater with ID " + id + " does not exits"));
     }
 
     @Override
     public List<TheaterDTO> getAll() {
         List<Theater> theaters = theaterRepository.findAll();
         List<TheaterDTO> theaterDTOS = new ArrayList<>();
-        for(Theater theater: theaters){
+        for (Theater theater : theaters) {
             theaterDTOS.add(TheaterMapper.toDTO(theater));
         }
         return theaterDTOS;

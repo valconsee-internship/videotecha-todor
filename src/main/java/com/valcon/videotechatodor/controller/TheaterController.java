@@ -20,12 +20,12 @@ public class TheaterController {
     }
 
     @GetMapping
-    public List<TheaterDTO> getAll(){
+    public List<TheaterDTO> getAll() {
         return theaterService.getAll();
     }
 
     @GetMapping("/{id}")
-    public TheaterDTO getOne(@PathVariable Long id){
+    public TheaterDTO getOne(@PathVariable Long id) {
         return theaterService.getOneTheaterDTO(id);
     }
 

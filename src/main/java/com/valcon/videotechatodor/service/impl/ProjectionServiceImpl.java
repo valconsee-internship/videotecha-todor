@@ -3,7 +3,6 @@ package com.valcon.videotechatodor.service.impl;
 import com.valcon.videotechatodor.dto.ProjectionCreateDTO;
 import com.valcon.videotechatodor.dto.ProjectionDTO;
 import com.valcon.videotechatodor.mapper.ProjectionMapper;
-import com.valcon.videotechatodor.mapper.TheaterMapper;
 import com.valcon.videotechatodor.model.Movie;
 import com.valcon.videotechatodor.model.Projection;
 import com.valcon.videotechatodor.model.Theater;
@@ -32,9 +31,9 @@ public class ProjectionServiceImpl implements ProjectionService {
         this.theaterService = theaterService;
     }
 
-    private static final String PROJECTION_NOT_FOUND = "Projection with ID %d  does not exits";
+    private final String PROJECTION_NOT_FOUND = "Projection with ID %d  does not exits";
 
-    private void isOverlapping(Projection projection){
+    private void isOverlapping(Projection projection) {
         List<Projection> projections = projectionRepository.findByTheaterIdAndIsDeletedFalse(projection.getTheater().getId());
         boolean isOverlapping = projections.stream()
                 .anyMatch(p -> isProjectionOverlapping(p, projection.getStartTime()));
@@ -43,16 +42,16 @@ public class ProjectionServiceImpl implements ProjectionService {
         }
     }
 
-    private static boolean isProjectionOverlapping(Projection projection, LocalDateTime newProjectionStartTime){
+    private boolean isProjectionOverlapping(Projection projection, LocalDateTime newProjectionStartTime) {
         return isAfterOrEqual(newProjectionStartTime, projection.getStartTime())
                 && isBeforeOrEqual(newProjectionStartTime, projection.getEndTime());
     }
 
-    private static boolean isAfterOrEqual(LocalDateTime date, LocalDateTime dateToCompare) {
+    private boolean isAfterOrEqual(LocalDateTime date, LocalDateTime dateToCompare) {
         return date.isAfter(dateToCompare) || date.isEqual(dateToCompare);
     }
 
-    private static boolean isBeforeOrEqual(LocalDateTime date, LocalDateTime dateToCompare) {
+    private boolean isBeforeOrEqual(LocalDateTime date, LocalDateTime dateToCompare) {
         return date.isBefore(dateToCompare) || date.isEqual(dateToCompare);
     }
 
@@ -65,26 +64,32 @@ public class ProjectionServiceImpl implements ProjectionService {
     }
 
     @Override
-    public ProjectionDTO getOne(Long id) {
+    public ProjectionDTO getOneProjectionDTO(Long id) {
         return projectionRepository.findByIdAndIsDeletedFalseAndStartTimeAfter(id, LocalDateTime.now())
                 .map(ProjectionMapper::toDTO)
                 .orElseThrow(() -> new RuntimeException(String.format(PROJECTION_NOT_FOUND, id)));
     }
 
-    @Transactional
+    @Override
+    public Projection getOneProjection(Long id) {
+        return projectionRepository.findByIdAndIsDeletedFalseAndStartTimeAfter(id, LocalDateTime.now())
+                .orElseThrow(() -> new RuntimeException(String.format(PROJECTION_NOT_FOUND, id)));
+    }
+
     @Override
     public ProjectionDTO create(ProjectionCreateDTO projectionDTO) {
+        if (isBeforeOrEqual(projectionDTO.getStartTime(), LocalDateTime.now())) {
+            throw new RuntimeException("Cannot create projection in the past!");
+        }
         Projection projection = new Projection();
+        projection.setStartTime(projectionDTO.getStartTime());
         Movie movie = movieService.getOneMovie(projectionDTO.getMovieId());
         projection.setMovie(movie);
         Theater theater = theaterService.getOneTheater(projectionDTO.getTheaterId());
         projection.setTheater(theater);
-        if (isBeforeOrEqual(projectionDTO.getStartTime(), LocalDateTime.now())) {
-            throw new RuntimeException("Cannot create projection in the past!");
-        }
-        projection.setStartTime(projectionDTO.getStartTime());
-        projection.setTicketPrice(projectionDTO.getTicketPrice());
         isOverlapping(projection);
+        projection.setTicketPrice(projectionDTO.getTicketPrice());
+        projection.setAvailableSeats(theater.getCapacity());
         return ProjectionMapper.toDTO(projectionRepository.save(projection));
     }
 

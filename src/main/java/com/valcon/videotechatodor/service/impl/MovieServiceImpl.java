@@ -1,6 +1,8 @@
 package com.valcon.videotechatodor.service.impl;
 
+import com.valcon.videotechatodor.dto.MovieInfoDTO;
 import com.valcon.videotechatodor.dto.MovieDTO;
+import com.valcon.videotechatodor.mapper.MovieInfoMapper;
 import com.valcon.videotechatodor.mapper.MovieMapper;
 import com.valcon.videotechatodor.model.Movie;
 import com.valcon.videotechatodor.model.Projection;
@@ -23,11 +25,12 @@ public class MovieServiceImpl implements MovieService {
     private static String HAS_PROJECTION_ERROR = "Movie has active projections";
     private static String MOVIE_NOT_EXIST = "Movie with id %d does not exist";
 
-    private static List<Projection> activeProjections(Movie movie){
-        return movie.getProjections()
+    private static boolean hasActiveProjections(Movie movie) {
+        List<Projection> projections =  movie.getProjections()
                 .stream()
                 .filter(p -> !p.isDeleted() && !hasPassed(p))
                 .toList();
+        return !projections.isEmpty();
     }
 
     private static boolean hasPassed(Projection projection) {
@@ -47,7 +50,7 @@ public class MovieServiceImpl implements MovieService {
     public void delete(Long id) {
         Movie movie = movieRepository.findByIdAndIsDeletedFalse(id)
                 .orElseThrow(() -> new RuntimeException(String.format(MOVIE_NOT_EXIST, id)));
-        if(!activeProjections(movie).isEmpty()){
+        if (hasActiveProjections(movie)) {
             throw new RuntimeException(HAS_PROJECTION_ERROR);
         }
         movie.setDeleted(true);
@@ -55,13 +58,13 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieDTO create(MovieDTO movieDTO) {
-        movieRepository.save(MovieMapper.toEntity(movieDTO));
-        return movieDTO;
+    public MovieInfoDTO create(MovieInfoDTO movieInfoDTO) {
+        Movie movie = MovieMapper.toEntity(movieInfoDTO);
+        return MovieInfoMapper.toDTO(movieRepository.save(movie));
     }
 
     @Override
-    public MovieDTO getOneMovieDTO(Long id) {
+        public MovieDTO getOneMovieDTO(Long id) {
         return movieRepository.findByIdAndIsDeletedFalse(id)
                 .map(MovieMapper::toDTO)
                 .orElseThrow(() -> new RuntimeException(String.format(MOVIE_NOT_EXIST, id)));
@@ -77,22 +80,22 @@ public class MovieServiceImpl implements MovieService {
     public MovieDTO update(Long id, MovieDTO movieDTO) {
         Movie movie = getOneMovie(id);
 
-        if(!activeProjections(movie).isEmpty()){
+        if (hasActiveProjections(movie)) {
             throw new RuntimeException(HAS_PROJECTION_ERROR);
         }
-        if(movieDTO.getName() != null){
+        if (movieDTO.getName() != null) {
             movie.setName(movieDTO.getName());
         }
-        if(movieDTO.getDescription() != null){
+        if (movieDTO.getDescription() != null) {
             movie.setDescription(movieDTO.getDescription());
         }
-        if(movieDTO.getDirector() != null){
+        if (movieDTO.getDirector() != null) {
             movie.setDirector(movieDTO.getDirector());
         }
-        if(movieDTO.getLength() != 0){
+        if (movieDTO.getLength() != 0) {
             movie.setLength(movieDTO.getLength());
         }
-        if(movieDTO.getGenres() != null){
+        if (movieDTO.getGenres() != null) {
             movie.setGenres(movieDTO.getGenres());
         }
         movieRepository.save(movie);
@@ -102,7 +105,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDTO updateAndReplace(Long id, MovieDTO movieDTO) {
         Movie movie = getOneMovie(id);
-        if(!activeProjections(movie).isEmpty()) {
+        if (hasActiveProjections(movie)) {
             throw new RuntimeException(HAS_PROJECTION_ERROR);
         }
         movieRepository.save(movie);

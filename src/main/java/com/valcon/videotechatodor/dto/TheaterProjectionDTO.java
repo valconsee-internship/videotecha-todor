@@ -3,39 +3,29 @@ package com.valcon.videotechatodor.dto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class ProjectionDTO implements Serializable {
+public class TheaterProjectionDTO implements Serializable {
 
     private final Long projectionId;
 
-    private final MovieInfoDTO movie;
-
-    private final TheaterInfoDTO theater;
+    private final TheaterMovieDTO movie;
 
     private final LocalDateTime startTime;
 
     private final Double ticketPrice;
 
-    private final int numberOfSeats;
-
-    public ProjectionDTO(Long projectionId, MovieInfoDTO movie, TheaterInfoDTO theater, LocalDateTime startTime, Double ticketPrice, int numberOfSeats) {
+    public TheaterProjectionDTO(Long projectionId, TheaterMovieDTO movie, LocalDateTime startTime, Double ticketPrice) {
         this.projectionId = projectionId;
         this.movie = movie;
-        this.theater = theater;
         this.startTime = startTime;
         this.ticketPrice = ticketPrice;
-        this.numberOfSeats = numberOfSeats;
     }
 
     public Long getProjectionId() {
         return projectionId;
     }
 
-    public MovieInfoDTO getMovie() {
+    public TheaterMovieDTO getMovie() {
         return movie;
-    }
-
-    public TheaterInfoDTO getTheater() {
-        return theater;
     }
 
     public LocalDateTime getStartTime() {
@@ -46,7 +36,4 @@ public class ProjectionDTO implements Serializable {
         return ticketPrice;
     }
 
-    public int getNumberOfSeats() {
-        return numberOfSeats;
-    }
 }

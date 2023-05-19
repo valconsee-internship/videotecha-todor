@@ -1,5 +1,6 @@
 package com.valcon.videotechatodor.controller;
 
+import com.valcon.videotechatodor.dto.MovieInfoDTO;
 import com.valcon.videotechatodor.dto.MovieDTO;
 import com.valcon.videotechatodor.service.MovieService;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,32 +26,32 @@ public class MovieController {
     }
 
     @GetMapping
-    public List<MovieDTO> getAllMovies(){
+    public List<MovieDTO> getAllMovies() {
         return movieService.getAll();
     }
 
     @GetMapping("/{id}")
-    public MovieDTO getOneMovie(@PathVariable Long id){
+    public MovieDTO getOneMovie(@PathVariable Long id) {
         return movieService.getOneMovieDTO(id);
     }
 
     @PostMapping
-    public MovieDTO createMovie(@RequestBody MovieDTO movieDTO){
+    public MovieInfoDTO createMovie(@RequestBody MovieInfoDTO movieDTO) {
         return movieService.create(movieDTO);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteMovie(@PathVariable Long id){
+    public void deleteMovie(@PathVariable Long id) {
         movieService.delete(id);
     }
 
     @PatchMapping("/{id}")
-    public MovieDTO updateMovie(@PathVariable Long id, @RequestBody MovieDTO movieDTO){
-       return movieService.update(id, movieDTO);
+    public MovieDTO updateMovie(@PathVariable Long id, @RequestBody MovieDTO movieDTO) {
+        return movieService.update(id, movieDTO);
     }
 
     @PutMapping("/{id}")
-    public MovieDTO updateMovieAndReplace(@PathVariable Long id, @RequestBody MovieDTO movieDTO){
+    public MovieDTO updateMovieAndReplace(@PathVariable Long id, @RequestBody MovieDTO movieDTO) {
         return movieService.updateAndReplace(id, movieDTO);
     }
 

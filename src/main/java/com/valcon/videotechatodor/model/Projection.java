@@ -27,17 +27,21 @@ public class Projection {
     @Column(nullable = false)
     private Double ticketPrice;
 
+    private int availableSeats;
+
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean isDeleted;
+
 
     public Projection() {
     }
 
-    public Projection(Movie movie, Theater theater, LocalDateTime startTime, Double ticketPrice) {
+    public Projection(Movie movie, Theater theater, LocalDateTime startTime, Double ticketPrice, int availableSeats) {
         this.movie = movie;
         this.theater = theater;
         this.startTime = startTime;
         this.ticketPrice = ticketPrice;
+        this.availableSeats = availableSeats;
     }
 
     public Long getId() {
@@ -74,6 +78,14 @@ public class Projection {
 
     public void setTicketPrice(Double ticketPrice) {
         this.ticketPrice = ticketPrice;
+    }
+
+    public int getAvailableSeats() {
+        return availableSeats;
+    }
+
+    public void setAvailableSeats(int availableSeats) {
+        this.availableSeats = availableSeats;
     }
 
     public boolean isDeleted() {

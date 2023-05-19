@@ -1,5 +1,6 @@
 package com.valcon.videotechatodor.service;
 
+import com.valcon.videotechatodor.dto.MovieInfoDTO;
 import com.valcon.videotechatodor.dto.MovieDTO;
 import com.valcon.videotechatodor.model.Movie;
 
@@ -9,7 +10,7 @@ public interface MovieService {
 
     List<MovieDTO> getAll();
     void delete(Long id);
-    MovieDTO create(MovieDTO movieDTO);
+    MovieInfoDTO create(MovieInfoDTO movieDTO);
     MovieDTO getOneMovieDTO(Long id);
     Movie getOneMovie(Long id);
     MovieDTO update(Long id, MovieDTO movieDTO);
