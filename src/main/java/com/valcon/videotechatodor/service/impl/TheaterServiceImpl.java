@@ -5,9 +5,9 @@ import com.valcon.videotechatodor.mapper.TheaterMapper;
 import com.valcon.videotechatodor.model.Theater;
 import com.valcon.videotechatodor.repository.TheaterRepository;
 import com.valcon.videotechatodor.service.TheaterService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,27 +19,27 @@ public class TheaterServiceImpl implements TheaterService {
         this.theaterRepository = theaterRepository;
     }
 
+    private static final String THEATER_NOT_FOUND = "Theater with id %d does not exist";
+
     @Override
     public TheaterDTO getOneTheaterDTO(Long id) {
         return theaterRepository.findById(id)
                 .map(TheaterMapper::toDTO)
-                .orElseThrow(() -> new RuntimeException("Theater with ID " + id + " does not exits"));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(THEATER_NOT_FOUND, id)));
     }
 
     @Override
     public List<TheaterDTO> getAll() {
-        List<Theater> theaters = theaterRepository.findAll();
-        List<TheaterDTO> theaterDTOS = new ArrayList<>();
-        for (Theater theater : theaters) {
-            theaterDTOS.add(TheaterMapper.toDTO(theater));
-        }
-        return theaterDTOS;
+        return theaterRepository.findAll()
+                .stream()
+                .map(TheaterMapper::toDTO)
+                .toList();
     }
 
     @Override
     public Theater getOneTheater(Long id) {
         return theaterRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Theater with ID " + id + " does not exits"));
+                () -> new EntityNotFoundException(String.format(THEATER_NOT_FOUND, id)));
     }
 
 }

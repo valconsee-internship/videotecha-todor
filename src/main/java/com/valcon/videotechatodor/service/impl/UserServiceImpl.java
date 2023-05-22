@@ -8,6 +8,7 @@ import com.valcon.videotechatodor.model.User;
 import com.valcon.videotechatodor.repository.UserRepository;
 import com.valcon.videotechatodor.service.UserService;
 import com.valcon.videotechatodor.utils.Role;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -44,14 +45,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getOneUser(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(String.format(USER_NOT_FOUND, id)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(USER_NOT_FOUND, id)));
     }
 
     @Override
     public UserDTO getOneUserDTO(Long id) {
         return userRepository.findById(id)
                 .map(UserMapper::toDTO)
-                .orElseThrow(() -> new RuntimeException(String.format(USER_NOT_FOUND, id)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(USER_NOT_FOUND, id)));
     }
 
     @Override
