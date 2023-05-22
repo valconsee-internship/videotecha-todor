@@ -3,6 +3,7 @@ package com.valcon.videotechatodor.controller;
 import com.valcon.videotechatodor.dto.ProjectionCreateDTO;
 import com.valcon.videotechatodor.dto.ProjectionDTO;
 import com.valcon.videotechatodor.service.ProjectionService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +35,7 @@ public class ProjectionController {
     }
 
     @PostMapping
-    public ProjectionDTO createProjection(@RequestBody ProjectionCreateDTO projection) {
+    public ProjectionDTO createProjection(@RequestBody @Valid ProjectionCreateDTO projection) {
         return projectionService.create(projection);
     }
 

@@ -77,7 +77,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieDTO update(Long id, MovieDTO movieDTO) {
+    public MovieInfoDTO update(Long id, MovieInfoDTO movieDTO) {
         Movie movie = getOneMovie(id);
 
         if (hasActiveProjections(movie)) {
@@ -99,17 +99,17 @@ public class MovieServiceImpl implements MovieService {
             movie.setGenres(movieDTO.getGenres());
         }
         movieRepository.save(movie);
-        return MovieMapper.toDTO(movie);
+        return MovieInfoMapper.toDTO(movie);
     }
 
     @Override
-    public MovieDTO updateAndReplace(Long id, MovieDTO movieDTO) {
+    public MovieInfoDTO updateAndReplace(Long id, MovieInfoDTO movieDTO) {
         Movie movie = getOneMovie(id);
         if (hasActiveProjections(movie)) {
             throw new RuntimeException(HAS_PROJECTION_ERROR);
         }
         movieRepository.save(movie);
-        return MovieMapper.toDTO(movie);
+        return MovieInfoMapper.toDTO(movie);
     }
 
 }

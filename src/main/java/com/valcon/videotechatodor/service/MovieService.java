@@ -13,7 +13,7 @@ public interface MovieService {
     MovieInfoDTO create(MovieInfoDTO movieDTO);
     MovieDTO getOneMovieDTO(Long id);
     Movie getOneMovie(Long id);
-    MovieDTO update(Long id, MovieDTO movieDTO);
-    MovieDTO updateAndReplace(Long id, MovieDTO movieDTO);
+    MovieInfoDTO update(Long id, MovieInfoDTO movieDTO);
+    MovieInfoDTO updateAndReplace(Long id, MovieInfoDTO movieDTO);
 
 }

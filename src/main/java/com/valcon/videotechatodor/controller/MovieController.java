@@ -3,6 +3,7 @@ package com.valcon.videotechatodor.controller;
 import com.valcon.videotechatodor.dto.MovieInfoDTO;
 import com.valcon.videotechatodor.dto.MovieDTO;
 import com.valcon.videotechatodor.service.MovieService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -36,7 +37,7 @@ public class MovieController {
     }
 
     @PostMapping
-    public MovieInfoDTO createMovie(@RequestBody MovieInfoDTO movieDTO) {
+    public MovieInfoDTO createMovie(@RequestBody @Valid MovieInfoDTO movieDTO) {
         return movieService.create(movieDTO);
     }
 
@@ -46,12 +47,12 @@ public class MovieController {
     }
 
     @PatchMapping("/{id}")
-    public MovieDTO updateMovie(@PathVariable Long id, @RequestBody MovieDTO movieDTO) {
+    public MovieInfoDTO updateMovie(@PathVariable Long id, @RequestBody @Valid MovieInfoDTO movieDTO) {
         return movieService.update(id, movieDTO);
     }
 
     @PutMapping("/{id}")
-    public MovieDTO updateMovieAndReplace(@PathVariable Long id, @RequestBody MovieDTO movieDTO) {
+    public MovieInfoDTO updateMovieAndReplace(@PathVariable Long id, @RequestBody @Valid MovieInfoDTO movieDTO) {
         return movieService.updateAndReplace(id, movieDTO);
     }
 
