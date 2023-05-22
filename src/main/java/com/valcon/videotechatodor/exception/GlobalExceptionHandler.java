@@ -29,7 +29,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             SeatLimitException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected ExceptionDTO handleBadRequestException(Exception e) {
+    protected ExceptionDTO handleBadRequestException(RuntimeException e) {
         return new ExceptionDTO(LocalDateTime.now(), e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
