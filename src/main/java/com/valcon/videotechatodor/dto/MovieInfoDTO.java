@@ -17,14 +17,14 @@ public class MovieInfoDTO implements Serializable {
     @Length(min = 3, max = 255, message = "Description must be between 3 and 255 characters. ")
     private final String description;
 
-    @Length(min = 3, max = 255)
+    @Length(min = 3, max = 255, message = "Name of director must be between 3 and 255 characters. ")
     private final String director;
 
     @Min(value = 2, message = "Movie length cannot be less than 2 minutes. ")
     @Max(value = 300, message = "Movie length cannot be greater than 300 minutes. ")
     private final int length;
 
-    @NotEmpty
+    @NotEmpty(message = "Movie need to have at least one genre. ")
     private final List<Genre> genres;
 
     public MovieInfoDTO(String name, String description, String director, int length, List<Genre> genres) {
