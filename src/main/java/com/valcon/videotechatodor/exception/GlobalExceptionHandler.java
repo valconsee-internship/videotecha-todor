@@ -19,24 +19,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({EntityNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected ExceptionDTO handleNotFoundException(EntityNotFoundException e) {
-        return new ExceptionDTO(LocalDateTime.now(), e.getMessage(), HttpStatus.NOT_FOUND);
+        return new ExceptionDTO(LocalDateTime.now(), e.getMessage());
     }
 
-    @ExceptionHandler({
-            MovieActiveProjectionException.class,
-            ProjectionInPastException.class,
-            ProjectionOverlappingException.class,
-            CancellationDeadlineException.class,
-            SeatLimitException.class,
-            TicketLimitException.class,
-            SeatLimitException.class
-    })
+    @ExceptionHandler(BusinessLogicException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ExceptionDTO handleBadRequestException(RuntimeException e) {
-        return new ExceptionDTO(LocalDateTime.now(), e.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ExceptionDTO(LocalDateTime.now(), e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleMethodValidationFailure(final MethodArgumentNotValidException ex) {
         StringBuilder b = new StringBuilder();
         BindingResult results = ex.getBindingResult();

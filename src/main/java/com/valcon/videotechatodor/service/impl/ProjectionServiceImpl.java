@@ -2,8 +2,7 @@ package com.valcon.videotechatodor.service.impl;
 
 import com.valcon.videotechatodor.dto.ProjectionCreateDTO;
 import com.valcon.videotechatodor.dto.ProjectionDTO;
-import com.valcon.videotechatodor.exception.ProjectionInPastException;
-import com.valcon.videotechatodor.exception.ProjectionOverlappingException;
+import com.valcon.videotechatodor.exception.BusinessLogicException;
 import com.valcon.videotechatodor.mapper.ProjectionMapper;
 import com.valcon.videotechatodor.model.Movie;
 import com.valcon.videotechatodor.model.Projection;
@@ -14,7 +13,6 @@ import com.valcon.videotechatodor.service.ProjectionService;
 import com.valcon.videotechatodor.service.TheaterService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,7 +39,7 @@ public class ProjectionServiceImpl implements ProjectionService {
         boolean isOverlapping = projections.stream()
                 .anyMatch(p -> isProjectionOverlapping(p, projection.getStartTime()));
         if (isOverlapping) {
-            throw new ProjectionOverlappingException("Projection overlapping");
+            throw new BusinessLogicException("Projection overlapping");
         }
     }
 
@@ -82,7 +80,7 @@ public class ProjectionServiceImpl implements ProjectionService {
     @Override
     public ProjectionDTO create(ProjectionCreateDTO projectionDTO) {
         if (isBeforeOrEqual(projectionDTO.getStartTime(), LocalDateTime.now())) {
-            throw new ProjectionInPastException("Cannot create projection in the past!");
+            throw new BusinessLogicException("Cannot create projection in the past!");
         }
         Projection projection = new Projection();
         projection.setStartTime(projectionDTO.getStartTime());

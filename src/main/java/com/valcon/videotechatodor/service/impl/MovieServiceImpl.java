@@ -2,7 +2,7 @@ package com.valcon.videotechatodor.service.impl;
 
 import com.valcon.videotechatodor.dto.MovieInfoDTO;
 import com.valcon.videotechatodor.dto.MovieDTO;
-import com.valcon.videotechatodor.exception.MovieActiveProjectionException;
+import com.valcon.videotechatodor.exception.BusinessLogicException;
 import com.valcon.videotechatodor.mapper.MovieInfoMapper;
 import com.valcon.videotechatodor.mapper.MovieMapper;
 import com.valcon.videotechatodor.model.Movie;
@@ -53,7 +53,7 @@ public class MovieServiceImpl implements MovieService {
         Movie movie = movieRepository.findByIdAndIsDeletedFalse(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(MOVIE_NOT_EXIST, id)));
         if (hasActiveProjections(movie)) {
-            throw new MovieActiveProjectionException(HAS_PROJECTION_ERROR);
+            throw new BusinessLogicException(HAS_PROJECTION_ERROR);
         }
         movie.setDeleted(true);
         movieRepository.save(movie);
@@ -83,7 +83,7 @@ public class MovieServiceImpl implements MovieService {
         Movie movie = getOneMovie(id);
 
         if (hasActiveProjections(movie)) {
-            throw new MovieActiveProjectionException(HAS_PROJECTION_ERROR);
+            throw new BusinessLogicException(HAS_PROJECTION_ERROR);
         }
         if (movieDTO.getName() != null) {
             movie.setName(movieDTO.getName());
@@ -108,7 +108,7 @@ public class MovieServiceImpl implements MovieService {
     public MovieInfoDTO updateAndReplace(Long id, MovieInfoDTO movieDTO) {
         Movie movie = getOneMovie(id);
         if (hasActiveProjections(movie)) {
-            throw new MovieActiveProjectionException(HAS_PROJECTION_ERROR);
+            throw new BusinessLogicException(HAS_PROJECTION_ERROR);
         }
         movieRepository.save(movie);
         return MovieInfoMapper.toDTO(movie);

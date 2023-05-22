@@ -11,12 +11,9 @@ public class ExceptionDTO implements Serializable {
 
     private final String message;
 
-    private final HttpStatus httpStatus;
-
-    public ExceptionDTO(LocalDateTime exceptionTime, String message, HttpStatus httpStatus) {
+    public ExceptionDTO(LocalDateTime exceptionTime, String message) {
         this.exceptionTime = exceptionTime;
         this.message = message;
-        this.httpStatus = httpStatus;
     }
 
     public LocalDateTime getExceptionTime() {
@@ -27,7 +24,4 @@ public class ExceptionDTO implements Serializable {
         return message;
     }
 
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
-    }
 }
