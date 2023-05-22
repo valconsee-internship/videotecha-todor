@@ -7,16 +7,16 @@ import java.io.Serializable;
 
 public class UserDTO implements Serializable {
 
-    @Pattern(regexp = Regex.USERNAME, message = "Username can contain only letters and '_' symbol and must be between 3 and 21 characters long")
+    @Pattern(regexp = Regex.USERNAME, message = "Username can contain only letters and '_' symbol and must be between 3 and 21 characters long. ")
     private final String username;
 
     @Pattern(regexp = Regex.PASSWORD, message = """
             Password must contain at least one number, one lowercase letter,
-            one uppercase letter, one special character and must be between 8 and 255 characters
+            one uppercase letter, one special character and must be between 8 and 255 characters. 
             """)
     private final String password;
 
-    @Pattern(regexp = Regex.EMAIL, message = "Invalid email address")
+    @Pattern(regexp = Regex.EMAIL, message = "Invalid email address. ")
     private final String email;
 
 

@@ -11,17 +11,17 @@ import java.util.List;
 
 public class MovieInfoDTO implements Serializable {
 
-    @Length(min = 1, max = 255, message = "Movie name must be between 1 and 255 characters")
+    @Length(min = 1, max = 255, message = "Movie name must be between 1 and 255 characters. ")
     private final String name;
 
-    @Length(min = 3, max = 255, message = "Description must be between 3 and 255 characters")
+    @Length(min = 3, max = 255, message = "Description must be between 3 and 255 characters. ")
     private final String description;
 
     @Length(min = 3, max = 255)
     private final String director;
 
-    @Min(value = 2, message = "Movie length cannot be less than 2 minutes")
-    @Max(value = 300, message = "Movie length cannot be greater than 300 minutes")
+    @Min(value = 2, message = "Movie length cannot be less than 2 minutes. ")
+    @Max(value = 300, message = "Movie length cannot be greater than 300 minutes. ")
     private final int length;
 
     @NotEmpty
