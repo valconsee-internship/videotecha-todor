@@ -7,6 +7,8 @@ import java.util.List;
 
 public class MovieDTO implements Serializable {
 
+    private final Long id;
+
     private final String name;
 
     private final String description;
@@ -19,13 +21,18 @@ public class MovieDTO implements Serializable {
 
     private final List<MovieProjectionDTO> projections;
 
-    public MovieDTO(String name, String description, String director, int length, List<Genre> genres, List<MovieProjectionDTO> projections) {
+    public MovieDTO(Long id, String name, String description, String director, int length, List<Genre> genres, List<MovieProjectionDTO> projections) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.director = director;
         this.length = length;
         this.genres = genres;
         this.projections = projections;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {

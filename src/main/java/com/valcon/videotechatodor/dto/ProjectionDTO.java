@@ -7,7 +7,7 @@ public class ProjectionDTO implements Serializable {
 
     private final Long projectionId;
 
-    private final MovieInfoDTO movie;
+    private final MovieDTO movie;
 
     private final TheaterInfoDTO theater;
 
@@ -17,7 +17,7 @@ public class ProjectionDTO implements Serializable {
 
     private final int numberOfSeats;
 
-    public ProjectionDTO(Long projectionId, MovieInfoDTO movie, TheaterInfoDTO theater, LocalDateTime startTime, Double ticketPrice, int numberOfSeats) {
+    public ProjectionDTO(Long projectionId, MovieDTO movie, TheaterInfoDTO theater, LocalDateTime startTime, Double ticketPrice, int numberOfSeats) {
         this.projectionId = projectionId;
         this.movie = movie;
         this.theater = theater;
@@ -30,7 +30,7 @@ public class ProjectionDTO implements Serializable {
         return projectionId;
     }
 
-    public MovieInfoDTO getMovie() {
+    public MovieDTO getMovie() {
         return movie;
     }
 

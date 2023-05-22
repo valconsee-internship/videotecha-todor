@@ -1,9 +1,8 @@
 package com.valcon.videotechatodor.service.impl;
 
-import com.valcon.videotechatodor.dto.MovieInfoDTO;
+import com.valcon.videotechatodor.dto.MovieCreateDTO;
 import com.valcon.videotechatodor.dto.MovieDTO;
 import com.valcon.videotechatodor.exception.BusinessLogicException;
-import com.valcon.videotechatodor.mapper.MovieInfoMapper;
 import com.valcon.videotechatodor.mapper.MovieMapper;
 import com.valcon.videotechatodor.model.Movie;
 import com.valcon.videotechatodor.model.Projection;
@@ -60,9 +59,9 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieInfoDTO create(MovieInfoDTO movieInfoDTO) {
-        Movie movie = MovieMapper.toEntity(movieInfoDTO);
-        return MovieInfoMapper.toDTO(movieRepository.save(movie));
+    public MovieDTO create(MovieCreateDTO movieCreateDTO) {
+        Movie movie = MovieMapper.toEntity(movieCreateDTO);
+        return MovieMapper.toDTO(movieRepository.save(movie));
     }
 
     @Override
@@ -79,7 +78,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieInfoDTO update(Long id, MovieInfoDTO movieDTO) {
+    public MovieDTO update(Long id, MovieCreateDTO movieDTO) {
         Movie movie = getOneMovie(id);
 
         if (hasActiveProjections(movie)) {
@@ -101,17 +100,17 @@ public class MovieServiceImpl implements MovieService {
             movie.setGenres(movieDTO.getGenres());
         }
         movieRepository.save(movie);
-        return MovieInfoMapper.toDTO(movie);
+        return MovieMapper.toDTO(movie);
     }
 
     @Override
-    public MovieInfoDTO updateAndReplace(Long id, MovieInfoDTO movieDTO) {
+    public MovieDTO updateAndReplace(Long id, MovieCreateDTO movieDTO) {
         Movie movie = getOneMovie(id);
         if (hasActiveProjections(movie)) {
             throw new BusinessLogicException(HAS_PROJECTION_ERROR);
         }
         movieRepository.save(movie);
-        return MovieInfoMapper.toDTO(movie);
+        return MovieMapper.toDTO(movie);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.valcon.videotechatodor.controller;
 
-import com.valcon.videotechatodor.dto.MovieInfoDTO;
+import com.valcon.videotechatodor.dto.MovieCreateDTO;
 import com.valcon.videotechatodor.dto.MovieDTO;
 import com.valcon.videotechatodor.service.MovieService;
 import jakarta.validation.Valid;
@@ -37,7 +37,7 @@ public class MovieController {
     }
 
     @PostMapping
-    public MovieInfoDTO createMovie(@RequestBody @Valid MovieInfoDTO movieDTO) {
+    public MovieDTO createMovie(@RequestBody @Valid MovieCreateDTO movieDTO) {
         return movieService.create(movieDTO);
     }
 
@@ -47,12 +47,12 @@ public class MovieController {
     }
 
     @PatchMapping("/{id}")
-    public MovieInfoDTO updateMovie(@PathVariable Long id, @RequestBody @Valid MovieInfoDTO movieDTO) {
+    public MovieDTO updateMovie(@PathVariable Long id, @RequestBody @Valid MovieCreateDTO movieDTO) {
         return movieService.update(id, movieDTO);
     }
 
     @PutMapping("/{id}")
-    public MovieInfoDTO updateMovieAndReplace(@PathVariable Long id, @RequestBody @Valid MovieInfoDTO movieDTO) {
+    public MovieDTO updateMovieAndReplace(@PathVariable Long id, @RequestBody @Valid MovieCreateDTO movieDTO) {
         return movieService.updateAndReplace(id, movieDTO);
     }
 

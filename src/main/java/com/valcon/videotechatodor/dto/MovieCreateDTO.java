@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import java.io.Serializable;
 import java.util.List;
 
-public class MovieInfoDTO implements Serializable {
+public class MovieCreateDTO implements Serializable {
 
     @Length(min = 1, max = 255, message = "Movie name must be between 1 and 255 characters. ")
     private final String name;
@@ -20,14 +20,14 @@ public class MovieInfoDTO implements Serializable {
     @Length(min = 3, max = 255, message = "Name of director must be between 3 and 255 characters. ")
     private final String director;
 
-    @Min(value = 2, message = "Movie length cannot be less than 2 minutes. ")
-    @Max(value = 300, message = "Movie length cannot be greater than 300 minutes. ")
+    @Min(value = 1, message = "Movie length cannot be less than 1 minute. ")
+    @Max(value = 1265, message = "Movie length cannot be greater than 1265 minutes. ")
     private final int length;
 
     @NotEmpty(message = "Movie need to have at least one genre. ")
     private final List<Genre> genres;
 
-    public MovieInfoDTO(String name, String description, String director, int length, List<Genre> genres) {
+    public MovieCreateDTO(String name, String description, String director, int length, List<Genre> genres) {
         this.name = name;
         this.description = description;
         this.director = director;
