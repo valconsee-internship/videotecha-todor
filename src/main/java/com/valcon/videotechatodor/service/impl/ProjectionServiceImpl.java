@@ -3,6 +3,7 @@ package com.valcon.videotechatodor.service.impl;
 import com.valcon.videotechatodor.dto.ProjectionCreateDTO;
 import com.valcon.videotechatodor.dto.ProjectionDTO;
 import com.valcon.videotechatodor.exception.BusinessLogicException;
+import com.valcon.videotechatodor.exception.ResourceNotFoundException;
 import com.valcon.videotechatodor.mapper.ProjectionMapper;
 import com.valcon.videotechatodor.model.Movie;
 import com.valcon.videotechatodor.model.Projection;
@@ -11,7 +12,6 @@ import com.valcon.videotechatodor.repository.ProjectionRepository;
 import com.valcon.videotechatodor.service.MovieService;
 import com.valcon.videotechatodor.service.ProjectionService;
 import com.valcon.videotechatodor.service.TheaterService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -68,13 +68,13 @@ public class ProjectionServiceImpl implements ProjectionService {
     public ProjectionDTO getOneProjectionDTO(Long id) {
         return projectionRepository.findByIdAndIsDeletedFalseAndStartTimeAfter(id, LocalDateTime.now())
                 .map(ProjectionMapper::toDTO)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(PROJECTION_NOT_FOUND, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(PROJECTION_NOT_FOUND, id)));
     }
 
     @Override
     public Projection getOneProjection(Long id) {
         return projectionRepository.findByIdAndIsDeletedFalseAndStartTimeAfter(id, LocalDateTime.now())
-                .orElseThrow(() -> new EntityNotFoundException(String.format(PROJECTION_NOT_FOUND, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(PROJECTION_NOT_FOUND, id)));
     }
 
     @Override
@@ -97,7 +97,7 @@ public class ProjectionServiceImpl implements ProjectionService {
     @Override
     public void delete(Long id) {
         Projection projection = projectionRepository.findByIdAndIsDeletedFalseAndStartTimeAfter(id, LocalDateTime.now())
-                .orElseThrow(() -> new EntityNotFoundException(String.format(PROJECTION_NOT_FOUND, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(PROJECTION_NOT_FOUND, id)));
         projection.setDeleted(true);
         projectionRepository.save(projection);
     }

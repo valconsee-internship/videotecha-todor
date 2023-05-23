@@ -8,7 +8,7 @@ import com.valcon.videotechatodor.model.Movie;
 import com.valcon.videotechatodor.model.Projection;
 import com.valcon.videotechatodor.repository.MovieRepository;
 import com.valcon.videotechatodor.service.MovieService;
-import jakarta.persistence.EntityNotFoundException;
+import com.valcon.videotechatodor.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -50,7 +50,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void delete(Long id) {
         Movie movie = movieRepository.findByIdAndIsDeletedFalse(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(MOVIE_NOT_EXIST, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(MOVIE_NOT_EXIST, id)));
         if (hasActiveProjections(movie)) {
             throw new BusinessLogicException(HAS_PROJECTION_ERROR);
         }
@@ -68,13 +68,13 @@ public class MovieServiceImpl implements MovieService {
         public MovieDTO getOneMovieDTO(Long id) {
         return movieRepository.findByIdAndIsDeletedFalse(id)
                 .map(MovieMapper::toDTO)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(MOVIE_NOT_EXIST, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(MOVIE_NOT_EXIST, id)));
     }
 
     @Override
     public Movie getOneMovie(Long id) {
         return movieRepository.findByIdAndIsDeletedFalse(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(MOVIE_NOT_EXIST, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(MOVIE_NOT_EXIST, id)));
     }
 
     @Override

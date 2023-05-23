@@ -3,6 +3,7 @@ package com.valcon.videotechatodor.service.impl;
 import com.valcon.videotechatodor.dto.ReservationCreateDTO;
 import com.valcon.videotechatodor.dto.ReservationDTO;
 import com.valcon.videotechatodor.exception.BusinessLogicException;
+import com.valcon.videotechatodor.exception.ResourceNotFoundException;
 import com.valcon.videotechatodor.mapper.ReservationMapper;
 import com.valcon.videotechatodor.model.Projection;
 import com.valcon.videotechatodor.model.Reservation;
@@ -11,7 +12,6 @@ import com.valcon.videotechatodor.repository.ReservationRepository;
 import com.valcon.videotechatodor.service.ProjectionService;
 import com.valcon.videotechatodor.service.ReservationService;
 import com.valcon.videotechatodor.service.UserService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,7 +70,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Reservation getOne(Long id) {
         return reservationRepository.findByIdAndIsCanceledFalse(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Reservation with %d does not exist!", id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Reservation with %d does not exist!", id)));
     }
 
     @Override

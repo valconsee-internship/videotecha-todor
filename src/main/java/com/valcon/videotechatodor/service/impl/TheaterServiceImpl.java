@@ -1,11 +1,11 @@
 package com.valcon.videotechatodor.service.impl;
 
 import com.valcon.videotechatodor.dto.TheaterDTO;
+import com.valcon.videotechatodor.exception.ResourceNotFoundException;
 import com.valcon.videotechatodor.mapper.TheaterMapper;
 import com.valcon.videotechatodor.model.Theater;
 import com.valcon.videotechatodor.repository.TheaterRepository;
 import com.valcon.videotechatodor.service.TheaterService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class TheaterServiceImpl implements TheaterService {
     public TheaterDTO getOneTheaterDTO(Long id) {
         return theaterRepository.findById(id)
                 .map(TheaterMapper::toDTO)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(THEATER_NOT_FOUND, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(THEATER_NOT_FOUND, id)));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class TheaterServiceImpl implements TheaterService {
     @Override
     public Theater getOneTheater(Long id) {
         return theaterRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(String.format(THEATER_NOT_FOUND, id)));
+                () -> new ResourceNotFoundException(String.format(THEATER_NOT_FOUND, id)));
     }
 
 }
