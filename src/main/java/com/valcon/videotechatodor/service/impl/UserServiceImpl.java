@@ -2,6 +2,7 @@ package com.valcon.videotechatodor.service.impl;
 
 import com.valcon.videotechatodor.dto.ReservationDTO;
 import com.valcon.videotechatodor.dto.UserDTO;
+import com.valcon.videotechatodor.exception.ResourceNotFoundException;
 import com.valcon.videotechatodor.mapper.ReservationMapper;
 import com.valcon.videotechatodor.mapper.UserMapper;
 import com.valcon.videotechatodor.model.User;
@@ -44,14 +45,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getOneUser(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(String.format(USER_NOT_FOUND, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND, id)));
     }
 
     @Override
     public UserDTO getOneUserDTO(Long id) {
         return userRepository.findById(id)
                 .map(UserMapper::toDTO)
-                .orElseThrow(() -> new RuntimeException(String.format(USER_NOT_FOUND, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND, id)));
     }
 
     @Override

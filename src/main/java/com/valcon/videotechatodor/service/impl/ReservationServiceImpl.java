@@ -2,6 +2,8 @@ package com.valcon.videotechatodor.service.impl;
 
 import com.valcon.videotechatodor.dto.ReservationCreateDTO;
 import com.valcon.videotechatodor.dto.ReservationDTO;
+import com.valcon.videotechatodor.exception.BusinessLogicException;
+import com.valcon.videotechatodor.exception.ResourceNotFoundException;
 import com.valcon.videotechatodor.mapper.ReservationMapper;
 import com.valcon.videotechatodor.model.Projection;
 import com.valcon.videotechatodor.model.Reservation;
@@ -41,12 +43,12 @@ public class ReservationServiceImpl implements ReservationService {
         Projection projection = projectionService.getOneProjection(reservationCreateDTO.getProjectionId());
         boolean isLessOrEqualThenFive = reservationCreateDTO.getNumberOfTicket() <= TICKET_LIMIT;
         if(!isLessOrEqualThenFive) {
-            throw new RuntimeException("You cannot buy more than 5 tickets");
+            throw new BusinessLogicException("You cannot buy more than 5 tickets");
         }
 
         int currentAvailableSeats = projection.getAvailableSeats();
         if (currentAvailableSeats < reservationCreateDTO.getNumberOfTicket()) {
-            throw new RuntimeException("No available seats");
+            throw new BusinessLogicException("No available seats");
         }
 
         List<Reservation> userReservations = reservationRepository.findAllByUserIdAndProjectionIdAndIsCanceledFalse(reservationCreateDTO.getUserId(), reservationCreateDTO.getProjectionId());
@@ -56,7 +58,7 @@ public class ReservationServiceImpl implements ReservationService {
                     .mapToInt(Reservation::getNumberOfTickets)
                     .sum();
             if (numberOfTickets + reservationCreateDTO.getNumberOfTicket() > TICKET_LIMIT) {
-                throw new RuntimeException("Reservation limit reached!");
+                throw new BusinessLogicException("Reservation limit reached!");
             }
         }
         
@@ -68,7 +70,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Reservation getOne(Long id) {
         return reservationRepository.findByIdAndIsCanceledFalse(id)
-                .orElseThrow(() -> new RuntimeException(String.format("Reservation with %d not found!", id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Reservation with %d does not exist!", id)));
     }
 
     @Override
@@ -76,7 +78,7 @@ public class ReservationServiceImpl implements ReservationService {
     public void cancel(Long id) {
         Reservation reservation = getOne(id);
         if (LocalDateTime.now().isAfter(reservation.getProjection().getStartTime().minusHours(CANCELLATION_DEADLINE))) {
-            throw new RuntimeException("Cannot cancel reservation 2 hours before projection");
+            throw new BusinessLogicException("Cannot cancel reservation 2 hours before projection");
         }
         reservation.setCanceled(true);
         int updatedSeats = reservation.getProjection().getAvailableSeats() + reservation.getNumberOfTickets();

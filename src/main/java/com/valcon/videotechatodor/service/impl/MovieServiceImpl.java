@@ -1,13 +1,14 @@
 package com.valcon.videotechatodor.service.impl;
 
-import com.valcon.videotechatodor.dto.MovieInfoDTO;
+import com.valcon.videotechatodor.dto.MovieCreateDTO;
 import com.valcon.videotechatodor.dto.MovieDTO;
-import com.valcon.videotechatodor.mapper.MovieInfoMapper;
+import com.valcon.videotechatodor.exception.BusinessLogicException;
 import com.valcon.videotechatodor.mapper.MovieMapper;
 import com.valcon.videotechatodor.model.Movie;
 import com.valcon.videotechatodor.model.Projection;
 import com.valcon.videotechatodor.repository.MovieRepository;
 import com.valcon.videotechatodor.service.MovieService;
+import com.valcon.videotechatodor.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -49,39 +50,39 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void delete(Long id) {
         Movie movie = movieRepository.findByIdAndIsDeletedFalse(id)
-                .orElseThrow(() -> new RuntimeException(String.format(MOVIE_NOT_EXIST, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(MOVIE_NOT_EXIST, id)));
         if (hasActiveProjections(movie)) {
-            throw new RuntimeException(HAS_PROJECTION_ERROR);
+            throw new BusinessLogicException(HAS_PROJECTION_ERROR);
         }
         movie.setDeleted(true);
         movieRepository.save(movie);
     }
 
     @Override
-    public MovieInfoDTO create(MovieInfoDTO movieInfoDTO) {
-        Movie movie = MovieMapper.toEntity(movieInfoDTO);
-        return MovieInfoMapper.toDTO(movieRepository.save(movie));
+    public MovieDTO create(MovieCreateDTO movieCreateDTO) {
+        Movie movie = MovieMapper.toEntity(movieCreateDTO);
+        return MovieMapper.toDTO(movieRepository.save(movie));
     }
 
     @Override
         public MovieDTO getOneMovieDTO(Long id) {
         return movieRepository.findByIdAndIsDeletedFalse(id)
                 .map(MovieMapper::toDTO)
-                .orElseThrow(() -> new RuntimeException(String.format(MOVIE_NOT_EXIST, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(MOVIE_NOT_EXIST, id)));
     }
 
     @Override
     public Movie getOneMovie(Long id) {
         return movieRepository.findByIdAndIsDeletedFalse(id)
-                .orElseThrow(() -> new RuntimeException(String.format(MOVIE_NOT_EXIST, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(MOVIE_NOT_EXIST, id)));
     }
 
     @Override
-    public MovieDTO update(Long id, MovieDTO movieDTO) {
+    public MovieDTO update(Long id, MovieCreateDTO movieDTO) {
         Movie movie = getOneMovie(id);
 
         if (hasActiveProjections(movie)) {
-            throw new RuntimeException(HAS_PROJECTION_ERROR);
+            throw new BusinessLogicException(HAS_PROJECTION_ERROR);
         }
         if (movieDTO.getName() != null) {
             movie.setName(movieDTO.getName());
@@ -103,10 +104,10 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieDTO updateAndReplace(Long id, MovieDTO movieDTO) {
+    public MovieDTO updateAndReplace(Long id, MovieCreateDTO movieDTO) {
         Movie movie = getOneMovie(id);
         if (hasActiveProjections(movie)) {
-            throw new RuntimeException(HAS_PROJECTION_ERROR);
+            throw new BusinessLogicException(HAS_PROJECTION_ERROR);
         }
         movieRepository.save(movie);
         return MovieMapper.toDTO(movie);

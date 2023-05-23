@@ -2,6 +2,8 @@ package com.valcon.videotechatodor.service.impl;
 
 import com.valcon.videotechatodor.dto.ProjectionCreateDTO;
 import com.valcon.videotechatodor.dto.ProjectionDTO;
+import com.valcon.videotechatodor.exception.BusinessLogicException;
+import com.valcon.videotechatodor.exception.ResourceNotFoundException;
 import com.valcon.videotechatodor.mapper.ProjectionMapper;
 import com.valcon.videotechatodor.model.Movie;
 import com.valcon.videotechatodor.model.Projection;
@@ -11,7 +13,6 @@ import com.valcon.videotechatodor.service.MovieService;
 import com.valcon.videotechatodor.service.ProjectionService;
 import com.valcon.videotechatodor.service.TheaterService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,14 +32,14 @@ public class ProjectionServiceImpl implements ProjectionService {
         this.theaterService = theaterService;
     }
 
-    private final String PROJECTION_NOT_FOUND = "Projection with ID %d  does not exits";
+    private final String PROJECTION_NOT_FOUND = "Projection with ID %d  does not exist";
 
     private void isOverlapping(Projection projection) {
         List<Projection> projections = projectionRepository.findByTheaterIdAndIsDeletedFalse(projection.getTheater().getId());
         boolean isOverlapping = projections.stream()
                 .anyMatch(p -> isProjectionOverlapping(p, projection.getStartTime()));
         if (isOverlapping) {
-            throw new RuntimeException("Projection overlapping");
+            throw new BusinessLogicException("Projection overlapping");
         }
     }
 
@@ -67,19 +68,19 @@ public class ProjectionServiceImpl implements ProjectionService {
     public ProjectionDTO getOneProjectionDTO(Long id) {
         return projectionRepository.findByIdAndIsDeletedFalseAndStartTimeAfter(id, LocalDateTime.now())
                 .map(ProjectionMapper::toDTO)
-                .orElseThrow(() -> new RuntimeException(String.format(PROJECTION_NOT_FOUND, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(PROJECTION_NOT_FOUND, id)));
     }
 
     @Override
     public Projection getOneProjection(Long id) {
         return projectionRepository.findByIdAndIsDeletedFalseAndStartTimeAfter(id, LocalDateTime.now())
-                .orElseThrow(() -> new RuntimeException(String.format(PROJECTION_NOT_FOUND, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(PROJECTION_NOT_FOUND, id)));
     }
 
     @Override
     public ProjectionDTO create(ProjectionCreateDTO projectionDTO) {
         if (isBeforeOrEqual(projectionDTO.getStartTime(), LocalDateTime.now())) {
-            throw new RuntimeException("Cannot create projection in the past!");
+            throw new BusinessLogicException("Cannot create projection in the past!");
         }
         Projection projection = new Projection();
         projection.setStartTime(projectionDTO.getStartTime());
@@ -96,7 +97,7 @@ public class ProjectionServiceImpl implements ProjectionService {
     @Override
     public void delete(Long id) {
         Projection projection = projectionRepository.findByIdAndIsDeletedFalseAndStartTimeAfter(id, LocalDateTime.now())
-                .orElseThrow(() -> new RuntimeException(String.format(PROJECTION_NOT_FOUND, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(PROJECTION_NOT_FOUND, id)));
         projection.setDeleted(true);
         projectionRepository.save(projection);
     }
